@@ -1,5 +1,6 @@
 package com.mohammadfayaz.todo.ui.create
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -14,24 +15,19 @@ class CreateTodoActivity : AppCompatActivity() {
 
     lateinit var taskField: EditText
     lateinit var saveButton: Button
-    lateinit var viewModel: CreateViewModel
-
-    val todoDao: TodoDao by lazy { DbService.todoDao(this.applicationContext) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_todo)
 
-        viewModel = CreateViewModel(todoDao)
-
         taskField = findViewById(R.id.newTodoTextField)
         saveButton = findViewById(R.id.saveTodoButton)
 
+
         saveButton.setOnClickListener {
-            viewModel.create(taskField.text.toString())
-
-            taskField.text.clear()
-
+            val intent = Intent()
+            intent.putExtra("task", taskField.text.toString())
+            setResult(RESULT_OK, intent)
             finish()
         }
     }
