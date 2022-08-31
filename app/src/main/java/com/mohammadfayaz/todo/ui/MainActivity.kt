@@ -38,18 +38,22 @@ class MainActivity : AppCompatActivity() {
     fab = findViewById(R.id.floatingActionButton)
 
     fab.setOnClickListener {
-      startActivityForResult(Intent(this, CreateTodoActivity::class.java), 1)
+      startActivity(Intent(this, CreateTodoActivity::class.java))
     }
 
+    listenToDataUpdates()
+  }
+
+  private fun listenToDataUpdates() {
     viewModel.getTodos().observe(this) {
       adapter.list = it
     }
   }
 
-  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    super.onActivityResult(requestCode, resultCode, data)
-    if (requestCode == 1 && resultCode == RESULT_OK) {
-      viewModel.insertTask(data?.extras?.getString("task") ?: "")
+  override fun onResume() {
+    super.onResume()
+    if(!viewModel.getTodos().hasActiveObservers()) {
+      listenToDataUpdates()
     }
   }
 }
