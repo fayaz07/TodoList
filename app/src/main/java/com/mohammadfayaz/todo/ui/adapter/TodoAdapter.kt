@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mohammadfayaz.todo.R
 import com.mohammadfayaz.todo.data.TodoModel
 
-class TodoAdapter(private val onClick: (itemId: Int) -> Unit) : RecyclerView.Adapter<TodoViewHolder>() {
+class TodoAdapter(private val onClick: (itemId: Int, updatedStatus: Boolean) -> Unit) : RecyclerView.Adapter<TodoViewHolder>() {
     var list: List<TodoModel> = emptyList()
         @SuppressLint("NotifyDataSetChanged")
         set(value) {
@@ -30,7 +30,7 @@ class TodoAdapter(private val onClick: (itemId: Int) -> Unit) : RecyclerView.Ada
         holder.todoCheckBox.isChecked = item.completed
 
         holder.itemView.rootView.setOnClickListener {
-            onClick(item.id)
+            item.id?.let { it1 -> onClick(it1, !item.completed) }
         }
     }
 
