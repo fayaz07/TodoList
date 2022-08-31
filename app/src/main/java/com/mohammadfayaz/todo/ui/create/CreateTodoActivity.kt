@@ -23,6 +23,8 @@ class CreateTodoActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_create_todo)
 
+    supportActionBar?.title = "Add Todo"
+
     viewModel = ViewModelProvider(this, MViewModelFactory(todoDao)).get(MainViewModel::class.java)
 
     taskField = findViewById(R.id.newTodoTextField)
